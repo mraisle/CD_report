@@ -1,0 +1,256 @@
+---
+title: "Congressional Report Card"
+output: 
+  html_paged:
+    number_sections: false
+    css: ["custom.css"]
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(pagedown)
+library(palmerpenguins)
+library(patchwork)
+library(here)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+
+
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+```{r readData, echo=FALSE}
+vRCRA <- read.csv(here("MA4_data/MA4_RCRA_violations.csv"))
+vRCRA$year <- as.numeric(vRCRA$year)
+
+iRCRA <- read.csv(here("MA4_data/MA4_RCRA_inspections.csv"))
+iRCRA$year <- as.numeric(iRCRA$year)
+
+eRCRA <- read.csv(here("MA4_data/MA4_RCRA_enforcement.csv"))
+eRCRA$year <- as.numeric(eRCRA$year)
+
+vCAA <- read.csv(here("MA4_data/MA4_CAA_violations.csv"))
+vCAA$year <- as.numeric(vCAA$year)
+
+iCAA <- read.csv(here("MA4_data/MA4_CAA_inspections.csv"))
+iCAA$year <- as.numeric(iCAA$year)
+
+eCAA <- read.csv(here("MA4_data/MA4_CAA_enforcement.csv"))
+eCAA$year <- as.numeric(eCAA$year)
+
+```
+
+<div class="container">
+  <img src="factory_unsplash.jpg" alt="Snow" style="width:100%;">
+  <div class="top-left">District Info</div>
+</div> 
+
+### 4 August 2020  
+
+#### This report was produced by the Environmental Enforcement Watch, a project of EDGI. Data utlizied to produce this report comes from the EPA's Enforcement and Compliance History Online (ECHO) 
+
+<a href="https://www.environmentalenforcementwatch.org/"><img src="eew_logo.png" style="float: left; width: 25%; margin-left: 20%" ></a>
+
+<a href="https://envirodatagov.org/"><img src="edgi_logo.png" style="float: right; width: 35%; margin-right: 20%" ></a>
+
+
+\pagebreak
+
+<hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">
+
+
+##### DISTRICT INFORMATION
+
+# Massachussetts' 4th Congressional District   
+
+## Joe Kennedy 
+
+<a ><img src="Joe_kennedy.jpeg" style="float: center; width: 40%" ></a>
+
+## Democrat
+## Years in Office: 
+## Relevant Committee Membership: [Energy and Commerce Committee](https://energycommerce.house.gov/) 
+### Relevent Subcommittees: tbd 
+
+<div class="text-box-info">
+
+<p>The House Energy and Commerce Committee is the oldest house committee, and has one of the broadest mandates. Among other things, it has jurisdiction over environmental protection, clean air and climate change, safe drinking water, and toxic chemicals and hazardous waste. Additionally, it has oversight of the Environmental Protection Agency.</p>
+
+</div>
+
+# What can Joe Kennedy do? 
+
+<div class="text-box-info">
+
+<p>As a member of this committee and subcommittee, Joe can . . .</p>
+
+</div>
+
+
+# Cosponsored Bills in Interest Areas 
+<div class="text-box-info">
+
+<p>Pull info from govtrack</p>
+
+</div>
+
+\pagebreak
+
+<hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">
+
+<h1><span style="color:yellow">Highlights for Your District</span></h1>
+
+<a ><img src="MA4_data/ma4_map.jpeg" style="float: right; width: 50%" ></a>
+
+
+## 2271 regulated facilities in MA 4
+### 1743 RCRA facilities 
+### 446 CWA facilities
+### 464 CAA facilities
+
+
+### ^turn this into a bar chart comparison with national and statewide numbers
+
+
+### Put in all of this info once we have it and figure out how to visually represent - 
+
+* Total (all program) violations vs. total facilities 
+* Number of recurring violations (3+ quarters in violation) in the last 12 quarters 
+* % change in CWA effluent violations
+* % change in inspections 
+* % change in enforcement $ and # 
+
+
+
+
+\pagebreak
+
+<hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">
+##### Program Specific Information
+
+# Resource Conservation and Recovery Act 
+
+
+<div class="text-box-info">
+
+The Resource Conservation and Recovery Act (RCRA) gives EPA the authority to 
+control hazardous waste from the "cradle-to-grave", regulating the generation, transportation, treatment, storage, and disposal of hazardous waste. Although facilities self-report under RCRA, like the CAA, violations are most often found after an inspection, and a reduction in violations might mean a reduction in inspections. [EPA](https://www.epa.gov/laws-regulations/summary-resource-conservation-and-recovery-act)
+
+</div>
+
+```{r, fig.height = 6, fig.width = 8, fig.align = "center"} 
+largernumbers <- element_text(face = "bold", size = 14)
+largernumbers2 <- element_text(face = "bold", size = 12)
+
+vRCRAviol <- ggplot(vRCRA, mapping=aes(x=factor(year), y=RCRA_violations, color=President, group=1))+
+  scale_color_manual(values=c("#00bb38" , "#619eff", "#de7065ff"))+
+  geom_point(size=3)+
+  geom_line()+
+  labs(y="RCRA violations", x="Year")+
+  ggtitle("RCRA violations in MA 4")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
+        axis.line = element_line(colour = "black"),
+        axis.title.x=largernumbers,
+        axis.text.y=largernumbers2, axis.title.y=largernumbers,plot.title = largernumbers,
+        axis.text.x=element_text(angle= 80,hjust=1))
+
+iRCRAinsp <- ggplot(iRCRA, mapping=aes(x=factor(year), y=RCRA_inspections, color=President, group=1))+
+  scale_color_manual(values=c("#00bb38" , "#619eff", "#de7065ff"))+
+  geom_point(size=3)+
+  geom_line()+
+  labs(y="RCRA Inspections", x="Year")+
+  ggtitle("RCRA Inspections in MA 4")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
+        axis.line = element_line(colour = "black"),
+        axis.title.x=largernumbers,
+        axis.text.y=largernumbers2, axis.title.y=largernumbers,plot.title = largernumbers,
+        axis.text.x=element_text(angle= 80,hjust=1))
+
+eRCRAe <- ggplot(eRCRA, mapping=aes(x=factor(year), y=RCRA_enforcement, color=President, group=1))+
+  scale_color_manual(values=c("#00bb38" , "#619eff",  "#de7065ff"))+
+  geom_point(size=3)+
+  geom_line()+
+  labs(y="RCRA Enforcement", x="Year")+
+  ggtitle("RCRA Enforcement in MA 4")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
+        axis.line = element_line(colour = "black"),
+        axis.title.x=largernumbers,
+        axis.text.y=largernumbers2, axis.title.y=largernumbers,plot.title = largernumbers,
+        axis.text.x=element_text(angle= 80,hjust=1))
+
+
+(vRCRAviol | iRCRAinsp) / eRCRAe
+
+
+
+```
+
+\pagebreak
+
+<hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">
+##### Program Specific Information 
+
+# Clean Air Act
+
+<div class="text-box-info">
+
+The Clean Air Act (CAA) is the comprehensive federal law that regulates air emissions from stationary and mobile sources. Among other things, this law authorizes EPA to establish National Ambient Air Quality Standards (NAAQS) to protect public health and to regulate emissions of hazardous air pollutants [EPA] (https://www.epa.gov/laws-regulations/summary-clean-air-act). For the CAA, inspections are the most common way of identifying violations, so less violations aren't necessarily an improvement. Recent cuts in inspections is likely related to a drop in violations.
+
+</div>
+
+
+```{r, fig.height = 6, fig.width = 8, fig.align = "center"}
+largernumbers <- element_text(face = "bold", size = 14)
+largernumbers2 <- element_text(face = "bold", size = 12)
+
+vCAAviol <- ggplot(vCAA, mapping=aes(x=factor(year), y=CAA_violations, color=President, group=1))+
+  scale_color_manual(values=c("#00bb38" , "#619eff", "#de7065ff"))+
+  geom_point(size=3)+
+  geom_line()+
+  labs(y="CAA violations", x="Year")+
+  ggtitle("CAA violations in MA 4")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
+        axis.line = element_line(colour = "black"),
+        axis.title.x=largernumbers,
+        axis.text.y=largernumbers2, axis.title.y=largernumbers,plot.title = largernumbers,
+        axis.text.x=element_text(angle= 80,hjust=1))
+
+iCAAinsp <- ggplot(iCAA, mapping=aes(x=factor(year), y=CAA_inspections, color=President, group=1))+
+  scale_color_manual(values=c("#00bb38" , "#619eff", "#de7065ff"))+
+  geom_point(size=3)+
+  geom_line()+
+  labs(y="CAA Inspections", x="Year")+
+  ggtitle("CAA Inspections in MA 4")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
+        axis.line = element_line(colour = "black"),
+        axis.title.x=largernumbers,
+        axis.text.y=largernumbers2, axis.title.y=largernumbers,plot.title = largernumbers,
+        axis.text.x=element_text(angle= 80,hjust=1))
+
+eCAAe <- ggplot(eCAA, mapping=aes(x=factor(year), y=CAA_enforcement, color=President, group=1))+
+  scale_color_manual(values=c("#00bb38" , "#619eff",  "#de7065ff"))+
+  geom_point(size=3)+
+  geom_line()+
+  labs(y="CAA Enforcement ($)", x="Year")+
+  ggtitle("CAA Enforcement in MA 4")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
+        axis.line = element_line(colour = "black"),
+        axis.title.x=largernumbers,
+        axis.text.y=largernumbers2, axis.title.y=largernumbers,plot.title = largernumbers,
+        axis.text.x=element_text(angle= 80,hjust=1))
+
+
+(vCAAviol | iCAAinsp) / eCAAe
+
+
+
+```
+
+### More to come! 
