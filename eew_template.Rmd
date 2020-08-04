@@ -21,6 +21,10 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 ```
 
 ```{r readData, echo=FALSE}
+
+#going to try to read in the data with a for loop 
+
+
 vRCRA <- read.csv(here("MA4_data/MA4_RCRA_violations.csv"))
 vRCRA$year <- as.numeric(vRCRA$year)
 
@@ -48,7 +52,7 @@ eCAA$year <- as.numeric(eCAA$year)
 
 ### 4 August 2020  
 
-#### This report was produced by the Environmental Enforcement Watch, a project of EDGI. Data utlizied to produce this report comes from the EPA's Enforcement and Compliance History Online (ECHO) 
+#### This report was produced by the Environmental Enforcement Watch, a project of EDGI. Data utlizied to produce this report comes from the EPA's Enforcement and Compliance History Online [ECHO](https://echo.epa.gov/). 
 
 <a href="https://www.environmentalenforcementwatch.org/"><img src="eew_logo.png" style="float: left; width: 25%; margin-left: 20%" ></a>
 
@@ -99,6 +103,8 @@ eCAA$year <- as.numeric(eCAA$year)
 
 <hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">
 
+##### DISTRICT INFORMATION
+
 <h1><span style="color:yellow">Highlights for Your District</span></h1>
 
 <a ><img src="MA4_data/ma4_map.jpeg" style="float: right; width: 50%" ></a>
@@ -121,12 +127,29 @@ eCAA$year <- as.numeric(eCAA$year)
 * % change in inspections 
 * % change in enforcement $ and # 
 
+\pagebreak
+
+<hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">
+
+##### DISTRICT INFORMATION
+
+# Your District in Comparison
+
+### Put in all of this info once we have it and figure out how to visually represent - 
+
+
+* inspections per 100 regulated facilities nationally and statewide 
+* violations per 100 regulated facilities nationally and statewide 
+* Enforcement fines nationally and statewide 
+* GHG emissions nationally and statewide (2018)
+
 
 
 
 \pagebreak
 
 <hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">
+
 ##### Program Specific Information
 
 # Resource Conservation and Recovery Act 
@@ -135,7 +158,7 @@ eCAA$year <- as.numeric(eCAA$year)
 <div class="text-box-info">
 
 The Resource Conservation and Recovery Act (RCRA) gives EPA the authority to 
-control hazardous waste from the "cradle-to-grave", regulating the generation, transportation, treatment, storage, and disposal of hazardous waste. Although facilities self-report under RCRA, like the CAA, violations are most often found after an inspection, and a reduction in violations might mean a reduction in inspections. [EPA](https://www.epa.gov/laws-regulations/summary-resource-conservation-and-recovery-act)
+control hazardous waste from the "cradle-to-grave", regulating the generation, transportation, treatment, storage, and disposal of hazardous waste. Although facilities self-report under RCRA, like the CAA, violations are most often found after an inspection, and a reduction in violations might mean a reduction in inspections. [EPA](https://www.epa.gov/laws-regulations/summary-resource-conservation-and-recovery-act) [More info on RCRA](https://docs.google.com/presentation/d/1lV9b_vkcfCbTz8uss1XjXLHy2svpi2tmizb6et1Wfkc/edit?usp=sharing)
 
 </div>
 
@@ -144,7 +167,7 @@ largernumbers <- element_text(face = "bold", size = 14)
 largernumbers2 <- element_text(face = "bold", size = 12)
 
 vRCRAviol <- ggplot(vRCRA, mapping=aes(x=factor(year), y=RCRA_violations, color=President, group=1))+
-  scale_color_manual(values=c("#00bb38" , "#619eff", "#de7065ff"))+
+  scale_color_manual(values=c("#e56d13" , "#25539f", "#d43a69"))+
   geom_point(size=3)+
   geom_line()+
   labs(y="RCRA violations", x="Year")+
@@ -157,7 +180,7 @@ vRCRAviol <- ggplot(vRCRA, mapping=aes(x=factor(year), y=RCRA_violations, color=
         axis.text.x=element_text(angle= 80,hjust=1))
 
 iRCRAinsp <- ggplot(iRCRA, mapping=aes(x=factor(year), y=RCRA_inspections, color=President, group=1))+
-  scale_color_manual(values=c("#00bb38" , "#619eff", "#de7065ff"))+
+  scale_color_manual(values=c("#e56d13" , "#25539f", "#d43a69"))+
   geom_point(size=3)+
   geom_line()+
   labs(y="RCRA Inspections", x="Year")+
@@ -170,7 +193,7 @@ iRCRAinsp <- ggplot(iRCRA, mapping=aes(x=factor(year), y=RCRA_inspections, color
         axis.text.x=element_text(angle= 80,hjust=1))
 
 eRCRAe <- ggplot(eRCRA, mapping=aes(x=factor(year), y=RCRA_enforcement, color=President, group=1))+
-  scale_color_manual(values=c("#00bb38" , "#619eff",  "#de7065ff"))+
+  scale_color_manual(values=c("#e56d13" , "#25539f", "#d43a69"))+
   geom_point(size=3)+
   geom_line()+
   labs(y="RCRA Enforcement", x="Year")+
@@ -199,7 +222,7 @@ eRCRAe <- ggplot(eRCRA, mapping=aes(x=factor(year), y=RCRA_enforcement, color=Pr
 <div class="text-box-info">
 
 The Clean Air Act (CAA) is the comprehensive federal law that regulates air emissions from stationary and mobile sources. Among other things, this law authorizes EPA to establish National Ambient Air Quality Standards (NAAQS) to protect public health and to regulate emissions of hazardous air pollutants [EPA] (https://www.epa.gov/laws-regulations/summary-clean-air-act). For the CAA, inspections are the most common way of identifying violations, so less violations aren't necessarily an improvement. Recent cuts in inspections is likely related to a drop in violations.
-
+[More info on CAA](https://docs.google.com/presentation/d/1MzRQf3QeJqmYMSttdk0ghrXeOmOZgOV_MTynl-ri6Ik/edit?usp=sharing)
 </div>
 
 
@@ -208,7 +231,7 @@ largernumbers <- element_text(face = "bold", size = 14)
 largernumbers2 <- element_text(face = "bold", size = 12)
 
 vCAAviol <- ggplot(vCAA, mapping=aes(x=factor(year), y=CAA_violations, color=President, group=1))+
-  scale_color_manual(values=c("#00bb38" , "#619eff", "#de7065ff"))+
+  scale_color_manual(values=c("#25539f", "#d43a69"))+
   geom_point(size=3)+
   geom_line()+
   labs(y="CAA violations", x="Year")+
@@ -221,7 +244,7 @@ vCAAviol <- ggplot(vCAA, mapping=aes(x=factor(year), y=CAA_violations, color=Pre
         axis.text.x=element_text(angle= 80,hjust=1))
 
 iCAAinsp <- ggplot(iCAA, mapping=aes(x=factor(year), y=CAA_inspections, color=President, group=1))+
-  scale_color_manual(values=c("#00bb38" , "#619eff", "#de7065ff"))+
+  scale_color_manual(values=c("#25539f", "#d43a69"))+
   geom_point(size=3)+
   geom_line()+
   labs(y="CAA Inspections", x="Year")+
@@ -234,7 +257,7 @@ iCAAinsp <- ggplot(iCAA, mapping=aes(x=factor(year), y=CAA_inspections, color=Pr
         axis.text.x=element_text(angle= 80,hjust=1))
 
 eCAAe <- ggplot(eCAA, mapping=aes(x=factor(year), y=CAA_enforcement, color=President, group=1))+
-  scale_color_manual(values=c("#00bb38" , "#619eff",  "#de7065ff"))+
+  scale_color_manual(values=c("#25539f", "#d43a69"))+
   geom_point(size=3)+
   geom_line()+
   labs(y="CAA Enforcement ($)", x="Year")+
@@ -253,4 +276,98 @@ eCAAe <- ggplot(eCAA, mapping=aes(x=factor(year), y=CAA_enforcement, color=Presi
 
 ```
 
-### More to come! 
+\pagebreak
+
+<hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">
+##### Program Specific Information 
+
+# Clean Water Act 
+
+<div class="text-box-info">
+
+The Clean Water Act is a series of regulations that govern discharges of pollutants and regulates water quality standards for waters of the United States. The CWA established the National Pollutant Discharge Elimination System (NPDES) which permits discharges of pollutants [EPA](https://www.epa.gov/laws-regulations/summary-clean-water-act). Unlike the CAA, CWA violations are reported automatically through the National Pollutant Discharge Elimination System (NPDES), so violations are recorded independently of facility inspections. CWA inspections often occur in response to recorded violations.
+[More info on CWA](https://docs.google.com/presentation/d/1g6ZN3B5jvs3F1VAigiUtNNezjXdJnzuELfo9Deo9Y2w/edit?usp=sharing)
+</div>
+
+
+
+
+\pagebreak
+
+<hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">
+##### Program Specific Information 
+
+# The Greenhouse Gas Reporting Program  
+
+<div class="text-box-info">
+
+The GHGRP is an EPA Program mandated by law that requires reporting of major sources and suppliers of GHG emissions in the United States, including from large direct emissions sources, fuel and industrial gas suppliers, and CO2 injections sites. About 8,000 facilities are required to report their emissions annually, covering 85-90% of total US Annual GHG emissions [EPA](https://www.epa.gov/ghgreporting). By reporting direct sources and suppliers in the same way, the program can misrepresent the geography of emissions, making it appear as if industrial regions have an excess of emissions and suburban areas--where many household-level direct emissions occur--have little to no emissions. 
+[More info about GHGRP](https://docs.google.com/presentation/d/1oky0P2PSVsURLACzw6i3JaTtaNW_L1y0c2qpkEWBmds/edit?usp=sharing)
+
+</div>
+
+
+\pagebreak
+
+<hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">
+
+
+##### About the Report  
+
+# Data Limitations   
+
+<div class="text-box-info">
+
+<h3>Disclaimer</h3>
+
+<p>Info about COVID policy.</p>
+
+</div>
+
+* Gaps and Problems with ECHO data
+  + Inability to assess compliance over time
+  + Inability to easily assess data on politically-meaningful timeframes, e.g. 2, 4,     and 6 years. Just 3 and 5.
+  + No idea how many facilities operated in the past
+  + Multiple program IDs for a single facility/permit
+  + Geocoding errors
+  + Mislabeled times (e.g. the inspections that will occur in 2052)
+
+
+
+\pagebreak
+
+<hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">
+
+
+##### About the Report
+
+# About the Authors
+
+### About EEW and this Project
+<p>Environmental Enforcement Watch (EEW) is a collaborative project across EDGI working groups. The EEW project builds on EDGI’s 2019 [Sheep in the Closet Report](https://envirodatagov.org/publication/a-sheep-in-the-closet-the-erosion-of-enforcement-at-the-epa/) that documents large declines in EPA enforcement of environmental laws. This project and others used data from EPA’s [ECHO](https://echo.epa.gov/) database, revealing how useful ECHO could be for communities to track pollution and EPA responses in their areas. However, they also revealed the inaccessibility of ECHO for non-specialists, along with many omissions, errors, and confusions present in the data itself.<p>
+<p>A key goal of EEW is to highlight gaps and inadequacies in the enforcement of environmental laws, demonstrating EPA’s failure to fulfill its congressionally mandated duty. To help bring awareness and action to the state of environmental non-compliance across the US, we are using Jupyter Notebooks that utilize ECHO data to present these congressional report cards for the 75 Senators and House Representatives that sit on the House Energy & Commerce Committee and the Senate Environment & Public Works Committee. By providing a novel and poignant look at the chronic state of non-compliance in their states and districts, we hope to provide these key representatives with the information and pressure they need to hold the EPA accountable. <p>
+
+
+<div class="text-box-info">
+
+<h3>About EDGI</h3>
+
+<p>EDGI is an international network of over 175 members from more than 80 different academic institutions and non-profits, comprised foremost by grassroots volunteer efforts. Since 2016, EDGI has served as a preeminent watchdog group for federal environmental data, generating international effort to duplicate and monitor repositories of public data that are vital to environmental health research and knowledge.
+EDGI’s work has been widely acknowledged, leading to EDGI testifying before Congress on declines in EPA enforcement, and hundreds of mentions in leading national and international media such as _The New York Times_,_The Washington Post_, Vice News, and CNN. For more about our work, read our [2019 Annual Report](https://envirodatagov.org/publication/edgi-annual-report-2019/)and [2020 Annual Report](https://envirodatagov.org/publication/edgi-annual-report-2020/).<p>
+
+</div>
+
+
+#### [Contact Us](https://www.environmentalenforcementwatch.org/contact/)
+
+<div class="text-box-info">
+
+<h3>Links to data will eventually appear here</h3>
+
+</div>
+
+
+<a href="https://www.environmentalenforcementwatch.org/"><img src="eew_logo.png" style="float: left; width: 25%; margin-left: 20%" ></a>
+
+<a href="https://envirodatagov.org/"><img src="edgi_logo.png" style="float: right; width: 35%; margin-right: 20%" ></a>
+
