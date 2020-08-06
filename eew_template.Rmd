@@ -50,7 +50,7 @@ eCAA$year <- as.numeric(eCAA$year)
   <div class="top-left">District Info</div>
 </div> 
 
-### 4 August 2020  
+### 6 August 2020  
 
 #### This report was produced by the Environmental Enforcement Watch, a project of EDGI. Data utlizied to produce this report comes from the EPA's Enforcement and Compliance History Online [ECHO](https://echo.epa.gov/). 
 
@@ -70,7 +70,7 @@ eCAA$year <- as.numeric(eCAA$year)
 
 ## Joe Kennedy 
 
-<a ><img src="Joe_kennedy.jpeg" style="float: center; width: 40%" ></a>
+<a ><img src="Joe_kennedy.jpeg" style="float: left; width: 30%" ></a>
 
 ## Democrat
 ## Years in Office: 
@@ -83,7 +83,7 @@ eCAA$year <- as.numeric(eCAA$year)
 
 </div>
 
-# What can Joe Kennedy do? 
+## What can Joe Kennedy do? 
 
 <div class="text-box-info">
 
@@ -91,13 +91,10 @@ eCAA$year <- as.numeric(eCAA$year)
 
 </div>
 
+## Cosponsored Bills in Interest Areas 
 
-# Cosponsored Bills in Interest Areas 
-<div class="text-box-info">
+Pull info from govtrack
 
-<p>Pull info from govtrack</p>
-
-</div>
 
 \pagebreak
 
@@ -212,6 +209,12 @@ eRCRAe <- ggplot(eRCRA, mapping=aes(x=factor(year), y=RCRA_enforcement, color=Pr
 
 ```
 
+### Add here: 
+
+* Enforcement # over time since 2001	8
+* Number and Naming facilities with top compliance problems past 3 years
+
+
 \pagebreak
 
 <hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">
@@ -224,7 +227,6 @@ eRCRAe <- ggplot(eRCRA, mapping=aes(x=factor(year), y=RCRA_enforcement, color=Pr
 The Clean Air Act (CAA) is the comprehensive federal law that regulates air emissions from stationary and mobile sources. Among other things, this law authorizes EPA to establish National Ambient Air Quality Standards (NAAQS) to protect public health and to regulate emissions of hazardous air pollutants [EPA] (https://www.epa.gov/laws-regulations/summary-clean-air-act). For the CAA, inspections are the most common way of identifying violations, so less violations aren't necessarily an improvement. Recent cuts in inspections is likely related to a drop in violations.
 [More info on CAA](https://docs.google.com/presentation/d/1MzRQf3QeJqmYMSttdk0ghrXeOmOZgOV_MTynl-ri6Ik/edit?usp=sharing)
 </div>
-
 
 ```{r, fig.height = 6, fig.width = 8, fig.align = "center"}
 largernumbers <- element_text(face = "bold", size = 14)
@@ -276,6 +278,12 @@ eCAAe <- ggplot(eCAA, mapping=aes(x=factor(year), y=CAA_enforcement, color=Presi
 
 ```
 
+### Add here: 
+
+* Enforcement # over time since 2001	8
+* Number and Naming facilities with top compliance problems past 3 years
+
+
 \pagebreak
 
 <hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">
@@ -289,7 +297,12 @@ The Clean Water Act is a series of regulations that govern discharges of polluta
 [More info on CWA](https://docs.google.com/presentation/d/1g6ZN3B5jvs3F1VAigiUtNNezjXdJnzuELfo9Deo9Y2w/edit?usp=sharing)
 </div>
 
+### Once we have the data, add here:
 
+* Violations over time since 2001	
+* Inspections over time since 2001	
+* Enforcement ($ and #) over time since 2001	
+* Number and Naming facilities with top compliance problems past 3 years	
 
 
 \pagebreak
@@ -305,6 +318,12 @@ The GHGRP is an EPA Program mandated by law that requires reporting of major sou
 [More info on GHGRP](https://docs.google.com/presentation/d/1oky0P2PSVsURLACzw6i3JaTtaNW_L1y0c2qpkEWBmds/edit?usp=sharing)
 
 </div>
+
+### Once we have the data, add here:
+
+* Your district, 2010-2018 < what does this look like visually?
+* Real world comparison	
+* Major emitters in your district	
 
 
 \pagebreak
