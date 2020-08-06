@@ -70,18 +70,19 @@ eCAA$year <- as.numeric(eCAA$year)
 
 ## Joe Kennedy 
 
-<a ><img src="Joe_kennedy.jpeg" style="float: left; width: 30%" ></a>
+<a ><img src="Joe_kennedy.jpeg" style="float: left; width: 25%; margin-right: 5%" ></a>
 
-## Democrat
-## Years in Office: 
-## Relevant Committee Membership: [Energy and Commerce Committee](https://energycommerce.house.gov/) 
-### Relevent Subcommittees: tbd 
+<h2><span style="color:#25539f">Democrat</span></h2>
+## Years in Office: 7.5
 
+## Relevant Committee Membership: [Energy and Commerce Committee](https://energycommerce.house.gov/)
 <div class="text-box-info">
 
 <p>The House Energy and Commerce Committee is the oldest house committee, and has one of the broadest mandates. Among other things, it has jurisdiction over environmental protection, clean air and climate change, safe drinking water, and toxic chemicals and hazardous waste. Additionally, it has oversight of the Environmental Protection Agency.</p>
-
 </div>
+### Relevent Subcommittees: 
+1. [Energy](https://energycommerce.house.gov/subcommittees/energy-116th-congress) 
+2. [Oversights and Investigations](https://energycommerce.house.gov/subcommittees/oversight-and-investigations-116th-congress) 
 
 ## What can Joe Kennedy do? 
 
@@ -209,11 +210,12 @@ eRCRAe <- ggplot(eRCRA, mapping=aes(x=factor(year), y=RCRA_enforcement, color=Pr
 
 ```
 
+<div class="body">
 ### Add here: 
 
-* Enforcement # over time since 2001	8
+* Enforcement # over time since 2001	
 * Number and Naming facilities with top compliance problems past 3 years
-
+</div>
 
 \pagebreak
 
@@ -363,14 +365,15 @@ The GHGRP is an EPA Program mandated by law that requires reporting of major sou
 # About the Authors
 
 ### About EEW and this Project
-<p>Environmental Enforcement Watch (EEW) is a collaborative project across EDGI working groups. The EEW project builds on EDGI’s 2019 [Sheep in the Closet Report](https://envirodatagov.org/publication/a-sheep-in-the-closet-the-erosion-of-enforcement-at-the-epa/) that documents large declines in EPA enforcement of environmental laws. This project and others used data from EPA’s [ECHO](https://echo.epa.gov/) database, revealing how useful ECHO could be for communities to track pollution and EPA responses in their areas. However, they also revealed the inaccessibility of ECHO for non-specialists, along with many omissions, errors, and confusions present in the data itself.<p>
-<p>A key goal of EEW is to highlight gaps and inadequacies in the enforcement of environmental laws, demonstrating EPA’s failure to fulfill its congressionally mandated duty. To help bring awareness and action to the state of environmental non-compliance across the US, we are using Jupyter Notebooks that utilize ECHO data to present these congressional report cards for the 75 Senators and House Representatives that sit on the House Energy & Commerce Committee and the Senate Environment & Public Works Committee. By providing a novel and poignant look at the chronic state of non-compliance in their states and districts, we hope to provide these key representatives with the information and pressure they need to hold the EPA accountable. <p>
+
+Environmental Enforcement Watch (EEW) is a collaborative project across EDGI working groups. The EEW project builds on EDGI’s 2019 [Sheep in the Closet Report](https://envirodatagov.org/publication/a-sheep-in-the-closet-the-erosion-of-enforcement-at-the-epa/) that documents large declines in EPA enforcement of environmental laws. This project and others used data from EPA’s [ECHO](https://echo.epa.gov/) database, revealing how useful ECHO could be for communities to track pollution and EPA responses in their areas. However, they also revealed the inaccessibility of ECHO for non-specialists, along with many omissions, errors, and confusions present in the data itself.
+
+A key goal of EEW is to highlight gaps and inadequacies in the enforcement of environmental laws, demonstrating EPA’s failure to fulfill its congressionally mandated duty. To help bring awareness and action to the state of environmental non-compliance across the US, we are using Jupyter Notebooks that utilize ECHO data to present these congressional report cards for the 75 Senators and House Representatives that sit on the House Energy & Commerce Committee and the Senate Environment & Public Works Committee. By providing a novel and poignant look at the chronic state of non-compliance in their states and districts, we hope to provide these key representatives with the information and pressure they need to hold the EPA accountable. 
 
 
 <div class="text-box-info">
 
 <h3>About EDGI</h3>
-
 <p>EDGI is an international network of over 175 members from more than 80 different academic institutions and non-profits, comprised foremost by grassroots volunteer efforts. Since 2016, EDGI has served as a preeminent watchdog group for federal environmental data, generating international effort to duplicate and monitor repositories of public data that are vital to environmental health research and knowledge.
 EDGI’s work has been widely acknowledged, leading to EDGI testifying before Congress on declines in EPA enforcement, and hundreds of mentions in leading national and international media such as _The New York Times_,_The Washington Post_, Vice News, and CNN. For more about our work, read our [2019 Annual Report](https://envirodatagov.org/publication/edgi-annual-report-2019/)and [2020 Annual Report](https://envirodatagov.org/publication/edgi-annual-report-2020/).<p>
 
