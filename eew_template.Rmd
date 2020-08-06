@@ -160,7 +160,7 @@ control hazardous waste from the "cradle-to-grave", regulating the generation, t
 
 </div>
 
-```{r, fig.height = 6, fig.width = 8, fig.align = "center"} 
+```{r, fig.height = 5, fig.width = 8, fig.align = "center"} 
 largernumbers <- element_text(face = "bold", size = 14)
 largernumbers2 <- element_text(face = "bold", size = 12)
 
@@ -230,7 +230,7 @@ The Clean Air Act (CAA) is the comprehensive federal law that regulates air emis
 [More info on CAA](https://docs.google.com/presentation/d/1MzRQf3QeJqmYMSttdk0ghrXeOmOZgOV_MTynl-ri6Ik/edit?usp=sharing)
 </div>
 
-```{r, fig.height = 6, fig.width = 8, fig.align = "center"}
+```{r, fig.height = 5, fig.width = 8, fig.align = "center"}
 largernumbers <- element_text(face = "bold", size = 14)
 largernumbers2 <- element_text(face = "bold", size = 12)
 
@@ -279,11 +279,12 @@ eCAAe <- ggplot(eCAA, mapping=aes(x=factor(year), y=CAA_enforcement, color=Presi
 
 
 ```
-
+<div class="body">
 ### Add here: 
 
-* Enforcement # over time since 2001	8
+* Enforcement # over time since 2001	
 * Number and Naming facilities with top compliance problems past 3 years
+</div>
 
 
 \pagebreak
