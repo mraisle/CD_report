@@ -29,7 +29,6 @@ filenames = list.files(here("testdata"), pattern = ".csv")
 file_count = length(filenames)
 for (i in filenames){  
   name <- gsub("^([^_]*_[^_]*)_.*$","\\1", i)
- # "^([^_]*_[^_]*)_.*$", "\\1",
   assign(name, read_csv(here("testdata", i)))
 }
 
@@ -62,7 +61,7 @@ eCAA$year <- as.numeric(eCAA$year)
 
 ### 6 August 2020  
 
-#### This report was produced by the Environmental Enforcement Watch, a project of EDGI. Data utlizied to produce this report comes from the EPA's Enforcement and Compliance History Online [ECHO](https://echo.epa.gov/). 
+#### This report was produced by the Environmental Enforcement Watch, a project of EDGI. Data utlized to produce this report comes from the EPA's Enforcement and Compliance History Online [ECHO](https://echo.epa.gov/). 
 
 <a href="https://www.environmentalenforcementwatch.org/"><img src="eew_logo.png" style="float: left; width: 25%; margin-left: 20%" ></a>
 
@@ -83,18 +82,18 @@ eCAA$year <- as.numeric(eCAA$year)
 <a ><img src="Joe_kennedy.jpeg" style="float: left; width: 25%; margin-right: 5%" ></a>
 
 <h2><span style="color:#25539f">Democrat</span></h2>
-## Years in Office: 7.5
+## In office since January 3rd, 2013
 
 ## Relevant Committee Membership: [Energy and Commerce Committee](https://energycommerce.house.gov/)
 <div class="text-box-info">
 
 <p>The House Energy and Commerce Committee is the oldest house committee, and has one of the broadest mandates. Among other things, it has jurisdiction over environmental protection, clean air and climate change, safe drinking water, and toxic chemicals and hazardous waste. Additionally, it has oversight of the Environmental Protection Agency.</p>
 </div>
-### Relevent Subcommittees: 
+### Relevant Subcommittees: 
 1. [Energy](https://energycommerce.house.gov/subcommittees/energy-116th-congress) 
 2. [Oversights and Investigations](https://energycommerce.house.gov/subcommittees/oversight-and-investigations-116th-congress) 
 
-## What can Joe Kennedy do? 
+## What powers do representatives on this committee/subcommittee have? 
 
 <div class="text-box-info">
 
@@ -153,80 +152,6 @@ Pull info from govtrack
 
 
 
-
-\pagebreak
-
-<hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">
-
-##### Program Specific Information
-
-# Resource Conservation and Recovery Act 
-
-
-<div class="text-box-info">
-
-The Resource Conservation and Recovery Act (RCRA) gives EPA the authority to 
-control hazardous waste from the "cradle-to-grave", regulating the generation, transportation, treatment, storage, and disposal of hazardous waste. Although facilities self-report under RCRA, like the CAA, violations are most often found after an inspection, and a reduction in violations might mean a reduction in inspections. [EPA](https://www.epa.gov/laws-regulations/summary-resource-conservation-and-recovery-act) [More info on RCRA](https://docs.google.com/presentation/d/1lV9b_vkcfCbTz8uss1XjXLHy2svpi2tmizb6et1Wfkc/edit?usp=sharing)
-
-</div>
-
-```{r, fig.height = 5, fig.width = 8, fig.align = "center"} 
-largernumbers <- element_text(face = "bold", size = 14)
-largernumbers2 <- element_text(face = "bold", size = 12)
-
-vRCRAviol <- ggplot(vRCRA, mapping=aes(x=factor(year), y=RCRA_violations, color=President, group=1))+
-  scale_color_manual(values=c("#e56d13" , "#25539f", "#d43a69"))+
-  geom_point(size=3)+
-  geom_line()+
-  labs(y="RCRA violations", x="Year")+
-  ggtitle("RCRA violations in MA 4")+
-  theme_bw()+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
-        axis.line = element_line(colour = "black"),
-        axis.title.x=largernumbers,
-        axis.text.y=largernumbers2, axis.title.y=largernumbers,plot.title = largernumbers,
-        axis.text.x=element_text(angle= 80,hjust=1))
-
-iRCRAinsp <- ggplot(iRCRA, mapping=aes(x=factor(year), y=RCRA_inspections, color=President, group=1))+
-  scale_color_manual(values=c("#e56d13" , "#25539f", "#d43a69"))+
-  geom_point(size=3)+
-  geom_line()+
-  labs(y="RCRA Inspections", x="Year")+
-  ggtitle("RCRA Inspections in MA 4")+
-  theme_bw()+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
-        axis.line = element_line(colour = "black"),
-        axis.title.x=largernumbers,
-        axis.text.y=largernumbers2, axis.title.y=largernumbers,plot.title = largernumbers,
-        axis.text.x=element_text(angle= 80,hjust=1))
-
-eRCRAe <- ggplot(eRCRA, mapping=aes(x=factor(year), y=RCRA_enforcement, color=President, group=1))+
-  scale_color_manual(values=c("#e56d13" , "#25539f", "#d43a69"))+
-  geom_point(size=3)+
-  geom_line()+
-  labs(y="RCRA Enforcement", x="Year")+
-  ggtitle("RCRA Enforcement in MA 4")+
-  theme_bw()+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
-        axis.line = element_line(colour = "black"),
-        axis.title.x=largernumbers,
-        axis.text.y=largernumbers2, axis.title.y=largernumbers,plot.title = largernumbers,
-        axis.text.x=element_text(angle= 80,hjust=1))
-
-
-(vRCRAviol | iRCRAinsp) / eRCRAe
-
-
-
-```
-
-<div class="body">
-### Add here: 
-
-* Enforcement # over time since 2001	
-* Number and Naming facilities with top compliance problems past 3 years
-</div>
-
 \pagebreak
 
 <hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">
@@ -236,7 +161,7 @@ eRCRAe <- ggplot(eRCRA, mapping=aes(x=factor(year), y=RCRA_enforcement, color=Pr
 
 <div class="text-box-info">
 
-The Clean Air Act (CAA) is the comprehensive federal law that regulates air emissions from stationary and mobile sources. Among other things, this law authorizes EPA to establish National Ambient Air Quality Standards (NAAQS) to protect public health and to regulate emissions of hazardous air pollutants [EPA] (https://www.epa.gov/laws-regulations/summary-clean-air-act). For the CAA, inspections are the most common way of identifying violations, so less violations aren't necessarily an improvement. Recent cuts in inspections is likely related to a drop in violations.
+The Clean Air Act (CAA) is the comprehensive federal law that regulates air emissions from stationary and mobile sources. Among other things, this law authorizes EPA to establish National Ambient Air Quality Standards (NAAQS) to protect public health and to regulate emissions of hazardous air pollutants [EPA](https://www.epa.gov/laws-regulations/summary-clean-air-act). For the CAA, inspections are the most common way of identifying violations, so less violations aren't necessarily an improvement. Recent cuts in inspections is likely related to a drop in violations.
 [More info on CAA](https://docs.google.com/presentation/d/1MzRQf3QeJqmYMSttdk0ghrXeOmOZgOV_MTynl-ri6Ik/edit?usp=sharing)
 </div>
 
@@ -316,6 +241,81 @@ The Clean Water Act is a series of regulations that govern discharges of polluta
 * Inspections over time since 2001	
 * Enforcement ($ and #) over time since 2001	
 * Number and Naming facilities with top compliance problems past 3 years	
+
+
+\pagebreak
+
+<hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">
+
+##### Program Specific Information
+
+# Resource Conservation and Recovery Act 
+
+
+<div class="text-box-info">
+
+The Resource Conservation and Recovery Act (RCRA) gives EPA the authority to 
+control hazardous waste from the "cradle-to-grave", regulating the generation, transportation, treatment, storage, and disposal of hazardous waste. Although facilities self-report under RCRA, like the CAA, violations are most often found after an inspection, and a reduction in violations might mean a reduction in inspections. [EPA](https://www.epa.gov/laws-regulations/summary-resource-conservation-and-recovery-act) [More info on RCRA](https://docs.google.com/presentation/d/1lV9b_vkcfCbTz8uss1XjXLHy2svpi2tmizb6et1Wfkc/edit?usp=sharing)
+
+</div>
+
+```{r, fig.height = 5, fig.width = 8, fig.align = "center"} 
+largernumbers <- element_text(face = "bold", size = 14)
+largernumbers2 <- element_text(face = "bold", size = 12)
+
+vRCRAviol <- ggplot(vRCRA, mapping=aes(x=factor(year), y=RCRA_violations, color=President, group=1))+
+  scale_color_manual(values=c("#e56d13" , "#25539f", "#d43a69"))+
+  geom_point(size=3)+
+  geom_line()+
+  labs(y="RCRA violations", x="Year")+
+  ggtitle("RCRA violations in MA 4")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
+        axis.line = element_line(colour = "black"),
+        axis.title.x=largernumbers,
+        axis.text.y=largernumbers2, axis.title.y=largernumbers,plot.title = largernumbers,
+        axis.text.x=element_text(angle= 80,hjust=1))
+
+iRCRAinsp <- ggplot(iRCRA, mapping=aes(x=factor(year), y=RCRA_inspections, color=President, group=1))+
+  scale_color_manual(values=c("#e56d13" , "#25539f", "#d43a69"))+
+  geom_point(size=3)+
+  geom_line()+
+  labs(y="RCRA Inspections", x="Year")+
+  ggtitle("RCRA Inspections in MA 4")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
+        axis.line = element_line(colour = "black"),
+        axis.title.x=largernumbers,
+        axis.text.y=largernumbers2, axis.title.y=largernumbers,plot.title = largernumbers,
+        axis.text.x=element_text(angle= 80,hjust=1))
+
+eRCRAe <- ggplot(eRCRA, mapping=aes(x=factor(year), y=RCRA_enforcement, color=President, group=1))+
+  scale_color_manual(values=c("#e56d13" , "#25539f", "#d43a69"))+
+  geom_point(size=3)+
+  geom_line()+
+  labs(y="RCRA Enforcement", x="Year")+
+  ggtitle("RCRA Enforcement in MA 4")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
+        axis.line = element_line(colour = "black"),
+        axis.title.x=largernumbers,
+        axis.text.y=largernumbers2, axis.title.y=largernumbers,plot.title = largernumbers,
+        axis.text.x=element_text(angle= 80,hjust=1))
+
+
+(vRCRAviol | iRCRAinsp) / eRCRAe
+
+
+
+```
+
+<div class="body">
+### Add here: 
+
+* Enforcement # over time since 2001	
+* Number and Naming facilities with top compliance problems past 3 years
+</div>
+
 
 
 \pagebreak
