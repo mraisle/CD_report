@@ -22,12 +22,18 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 
 ```{r readData, echo=FALSE}
 
-#going to try to read in the data with a for loop 
+#reading in all of the data and naming it based on the name of the .csv up to the first 2 underscores
+#each time this file is run, change "here" to specify the subfolder for the district or state 
 
-filenames=list.files(path = "/Users/mraisle/Documents/OneDrive - University of North Carolina at Chapel Hill/CD_report/testdata" ,pattern= '*.csv', full.names = TRUE)
-for (filename in filenames){
-bar=read.csv(filename)
+filenames = list.files(here("testdata"), pattern = ".csv")
+file_count = length(filenames)
+for (i in filenames){  
+  name <- gsub("^([^_]*_[^_]*)_.*$","\\1", i)
+ # "^([^_]*_[^_]*)_.*$", "\\1",
+  assign(name, read_csv(here("testdata", i)))
 }
+
+
 
 vRCRA <- read.csv(here("MA4_data/MA4_RCRA_violations.csv"))
 vRCRA$year <- as.numeric(vRCRA$year)
