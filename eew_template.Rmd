@@ -24,6 +24,10 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 
 #going to try to read in the data with a for loop 
 
+filenames=list.files(path = "/Users/mraisle/Documents/OneDrive - University of North Carolina at Chapel Hill/CD_report/testdata" ,pattern= '*.csv', full.names = TRUE)
+for (filename in filenames){
+bar=read.csv(filename)
+}
 
 vRCRA <- read.csv(here("MA4_data/MA4_RCRA_violations.csv"))
 vRCRA$year <- as.numeric(vRCRA$year)
