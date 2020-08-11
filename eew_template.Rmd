@@ -23,34 +23,45 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 ```{r readData, echo=FALSE}
 
 #reading in all of the data and naming it based on the name of the .csv up to the first 2 underscores
-#each time this file is run, change "here" to specify the subfolder for the district or state 
-
-filenames = list.files(here("testdata"), pattern = ".csv")
+#national data
+filenames = list.files(here("nationalstats"), pattern = ".csv")
 file_count = length(filenames)
 for (i in filenames){  
   name <- gsub("^([^_]*_[^_]*)_.*$","\\1", i)
-  assign(name, read_csv(here("testdata", i)))
+  assign(name, read_csv(here("nationalstats", i)))
+}
+
+names(USAinspectionsper1000_All)[1] <- "Program"
+
+
+#each time this section is run, change "here" to specify the subfolder for the district or state 
+#Also, the way it is set up, you're going to need to cntrl f to change the district and date for the files
+filenames = list.files(here("MA4"), pattern = ".csv")
+file_count = length(filenames)
+for (i in filenames){  
+  name <- gsub("^([^_]*_[^_]*_[^_]*_[^-]*-[^-*])-.*$","\\1", i)
+  assign(name, read_csv(here("MA4", i)))
 }
 
 
 
-vRCRA <- read.csv(here("MA4_data/MA4_RCRA_violations.csv"))
-vRCRA$year <- as.numeric(vRCRA$year)
+#vRCRA <- read.csv(here("MA4_data/MA4_RCRA_violations.csv"))
+#vRCRA$year <- as.numeric(vRCRA$year)
 
-iRCRA <- read.csv(here("MA4_data/MA4_RCRA_inspections.csv"))
-iRCRA$year <- as.numeric(iRCRA$year)
+#iRCRA <- read.csv(here("MA4_data/MA4_RCRA_inspections.csv"))
+#iRCRA$year <- as.numeric(iRCRA$year)
 
-eRCRA <- read.csv(here("MA4_data/MA4_RCRA_enforcement.csv"))
-eRCRA$year <- as.numeric(eRCRA$year)
+#eRCRA <- read.csv(here("MA4_data/MA4_RCRA_enforcement.csv"))
+#eRCRA$year <- as.numeric(eRCRA$year)
 
-vCAA <- read.csv(here("MA4_data/MA4_CAA_violations.csv"))
-vCAA$year <- as.numeric(vCAA$year)
+#vCAA <- read.csv(here("MA4_data/MA4_CAA_violations.csv"))
+#vCAA$year <- as.numeric(vCAA$year)
 
-iCAA <- read.csv(here("MA4_data/MA4_CAA_inspections.csv"))
-iCAA$year <- as.numeric(iCAA$year)
+#iCAA <- read.csv(here("MA4_data/MA4_CAA_inspections.csv"))
+#iCAA$year <- as.numeric(iCAA$year)
 
-eCAA <- read.csv(here("MA4_data/MA4_CAA_enforcement.csv"))
-eCAA$year <- as.numeric(eCAA$year)
+#eCAA <- read.csv(here("MA4_data/MA4_CAA_enforcement.csv"))
+#eCAA$year <- as.numeric(eCAA$year)
 
 ```
 
@@ -121,6 +132,41 @@ Pull info from govtrack
 ### 1743 RCRA facilities 
 ### 446 CWA facilities
 ### 464 CAA facilities
+
+```{r, fig.height = 5, fig.width = 8, fig.align = "center"}
+largernumbers <- element_text(face = "bold", size = 14)
+title <- element_text(face = "bold", size = 14, hjust =.5)
+largernumbers2 <- element_text(face = "bold", size = 12)
+
+#let's combine the inspections data at national, state, CD level 
+names(USAinspectionsper1000_All)[2] <- "Inspectionsper1000"
+USAinspectionsper1000_All$Region <- as.factor("National")
+names(`inspectionsper1000_All_pg4_MA-081120 (1).csv`)[2] <- "Inspectionsper1000"
+`inspectionsper1000_All_pg4_MA-081120 (1).csv`$Region <- as.factor("State")
+names(`inspectionsper1000_All_pg4_MA-4`)[2] <- "Inspectionsper1000"
+`inspectionsper1000_All_pg4_MA-4`$Region <- as.factor("Congressional District")
+inspectionsper1000 <- rbind(USAinspectionsper1000_All, `inspectionsper1000_All_pg4_MA-081120 (1).csv`, `inspectionsper1000_All_pg4_MA-4`)
+inspectionsper1000$Inspectionsper1000 <- as.numeric(inspectionsper1000$Inspectionsper1000)
+inspectionsper1000[2] <-round(inspectionsper1000[2],0) 
+
+#Now let's visualize this 
+
+
+inspect1000bar <- ggplot(inspectionsper1000, aes(fill=Region, y=Inspectionsper1000, x=Program))+
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("#e56d13" , "#25539f", "#d43a69"))+
+  labs(y="Inspections per 1000 Facilities", x="Program")+
+  geom_text(aes(label=Inspectionsper1000), position = position_dodge(width=1), size=8)+
+  ggtitle("Comparing Inspections per 1000 Facilities")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
+        axis.line = element_line(colour = "black"),
+        axis.title.x=largernumbers,
+        axis.text.y=largernumbers2, axis.title.y=largernumbers,plot.title = title,
+        axis.text.x=largernumbers, legend.position = c(0.8, 0.5))
+inspect1000bar
+  
+```
 
 
 ### ^turn this into a bar chart comparison with national and statewide numbers
