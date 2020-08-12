@@ -15,6 +15,10 @@ library(here)
 library(ggplot2)
 library(tidyr)
 library(dplyr)
+library(shiny)
+library(extrafont)
+library(viridis)
+loadfonts()
 
 
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
@@ -43,6 +47,14 @@ for (i in filenames){
   assign(name, read_csv(here("MA4", i)))
 }
 
+#set up a theme default to reduce code block later 
+theme_meg <- function () { 
+  theme_bw(base_family="Georgia") %+replace% 
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
+          axis.line = element_line(colour = "black"), axis.title.x=element_text(face = "bold", size = 14), 
+          axis.title.y=element_text(face = "bold", size = 14, angle=90), plot.title=element_text(face = "bold", size = 14, hjust =.5), 
+          axis.text.x=element_text(face = "bold", size = 14), axis.text.y=element_text(face = "bold", size = 12))
+}
 
 
 #vRCRA <- read.csv(here("MA4_data/MA4_RCRA_violations.csv"))
@@ -134,9 +146,8 @@ Pull info from govtrack
 ### 464 CAA facilities
 
 ```{r, fig.height = 5, fig.width = 8, fig.align = "center"}
-largernumbers <- element_text(face = "bold", size = 14)
-title <- element_text(face = "bold", size = 14, hjust =.5)
-largernumbers2 <- element_text(face = "bold", size = 12)
+
+#comparing inspections
 
 #let's combine the inspections data at national, state, CD level 
 names(USAinspectionsper1000_All)[2] <- "Inspectionsper1000"
@@ -150,21 +161,18 @@ inspectionsper1000$Inspectionsper1000 <- as.numeric(inspectionsper1000$Inspectio
 inspectionsper1000[2] <-round(inspectionsper1000[2],0) 
 
 #Now let's visualize this 
-
-
 inspect1000bar <- ggplot(inspectionsper1000, aes(fill=Region, y=Inspectionsper1000, x=Program))+
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("#e56d13" , "#25539f", "#d43a69"))+
   labs(y="Inspections per 1000 Facilities", x="Program")+
-  geom_text(aes(label=Inspectionsper1000), position = position_dodge(width=1), size=8)+
+  geom_text(aes(label=Inspectionsper1000, family="Georgia"), position = position_dodge(0.9), vjust = -0.1, size=8)+
   ggtitle("Comparing Inspections per 1000 Facilities")+
-  theme_bw()+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
-        axis.line = element_line(colour = "black"),
-        axis.title.x=largernumbers,
-        axis.text.y=largernumbers2, axis.title.y=largernumbers,plot.title = title,
-        axis.text.x=largernumbers, legend.position = c(0.8, 0.5))
+  theme_meg()+
+  theme(legend.position = c(0.8, 0.5))
 inspect1000bar
+
+
+#comparing violations
   
 ```
 
