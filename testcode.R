@@ -93,3 +93,69 @@ RCRApie
 
 
 
+##getting %difference effluent violations
+
+##So, we're going to do the first 3 years of Obama and Trump so average
+#[9:11,2] Obama
+# [17:19,2] Trump
+effluentviolations <- `effluent-violations_CWA_pg3_MA-4`
+effluentchange <- data.frame("Obama Average" =mean(effluentviolations[9:11,2]),
+                             "Trump Average" =mean(effluentviolations[17:19,2]))
+effluentchange$PercentDifference <- as.numeric(100*(effluentchange[1,2]-effluentchange[1,1])/
+                                                 effluentchange[1,1])
+effluentchange[,1:3] <-round(effluentchange[,1:3],2)
+
+#then simple plot
+#first add in the Presidential Years
+effluentviolations$President <- as.character("Bush")
+effluentviolations[9:16,3] <- as.character("Obama")
+effluentviolations[17:20,3] <- as.character("Trump")
+
+effluentgraph <- ggplot(effluentviolations, mapping=aes(x=factor(Year),
+  y=Violations, color=President, group=1))+
+  scale_color_viridis(discrete= TRUE)+
+  geom_point(size=3)+
+  geom_line()+
+  labs(y="CWA Effluent Violations", x="Year")+
+  ggtitle("CWA Effluent Violations in MA 4")+
+  scale_y_continuous(expand=c(0,0), limits=c(0,450))+
+  theme_meg()+
+  theme(axis.text.x=element_text(angle= 80,hjust=1, size=8))
+effluentgraph
+
+
+
+##Inspections % change and graph
+
+##So, we're going to do the first 3 years of Obama and Trump so average
+#[9:11,2] Obama
+# [17:19,2] Trump
+inspections <- `inspections_All_pg3_MA-4`
+inspectionchange <- data.frame("Obama Average" =mean(inspections[9:11,2]),
+                             "Trump Average" =mean(inspections[17:19,2]))
+inspectionchange$PercentDifference <- as.numeric(100*(inspectionchange[1,2]-inspectionchange[1,1])/
+                                                 inspectionchange[1,1])
+inspectionchange[,1:3] <-round(inspectionchange[,1:3],2)
+
+#then simple plot
+#first add in the Presidential Years
+inspections$President <- as.character("Bush")
+inspections[9:16,3] <- as.character("Obama")
+inspections[17:20,3] <- as.character("Trump")
+
+inspectiongraph <- ggplot(inspections, mapping=aes(x=factor(Date),
+                                                        y=Count, color=President, group=1))+
+  scale_color_viridis(discrete= TRUE)+
+  geom_point(size=3)+
+  geom_line()+
+  labs(y="Inspections Across Programs", x="Year")+
+  ggtitle("Facility Inspections in MA 4")+
+  scale_y_continuous(expand=c(0,0), limits=c(0,125))+
+  theme_meg()+
+  theme(axis.text.x=element_text(angle= 80,hjust=1, size=8))
+inspectiongraph
+
+##leaving this here - I need to do #change in count and $$ for enforcement and then do a two y-axis graph
+##Then I just need to figure out how to put all of this onto that page
+
+
