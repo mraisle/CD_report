@@ -58,6 +58,14 @@ theme_meg <- function () {
           axis.text.x=element_text(face = "bold", size = 14), axis.text.y=element_text(face = "bold", size = 8))
 }
 
+theme_megpie <- function () { 
+  theme_bw(base_family="Georgia") %+replace% 
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
+          axis.line = element_line(colour = "black"), axis.title.x=element_text(face = "bold", size = 4), 
+          axis.title.y=element_text(face = "bold", size = 2, angle=90), plot.title=element_text(face = "bold", size = 6, hjust =.5), 
+          axis.text.x=element_text(face = "bold", size = 2), axis.text.y=element_text(face = "bold", size = 2))
+}
+
 
 vRCRA <- read.csv(here("MA4_data/MA4_RCRA_violations.csv"))
 vRCRA$year <- as.numeric(vRCRA$year)
@@ -148,8 +156,9 @@ Pull info from govtrack
 <h2><span style="color:#DC143C">`r activefacilities[4,2] ` 
 `r activefacilities[4,1]` facilities</span></h2>
 <br><br><br><br>
+
 ## Recurring Violators 
-```{r, fig.height = 6, fig.width = 8, fig.align = "center"}
+```{r echo=FALSE, fig.align="center", fig.height=6, fig.width=8}
 
 ##let's attempt these pie charts
 
@@ -187,7 +196,7 @@ CAApie<- ggplot(CAArecurring, aes(x="", y=Proportional, fill=Region))+
   geom_text(aes(y = ypos, label = (paste(Percent,"% of regulated facilities\nin", Region2))),
             family="Georgia", size=4, vjust=2) +
   ggtitle("Number of Clean Air Act Facilities that spent\nat least 25% of the last 3 years in Violation")+
-  theme_meg()+
+  theme_megpie()+
   theme(axis.line.y=element_blank(), axis.line.x = element_blank(),
         axis.title.y=element_blank(), axis.text.y=element_blank(), axis.text.x=element_blank(),
         axis.title.x=element_blank(), legend.title=element_blank())
@@ -225,7 +234,7 @@ CWApie<- ggplot(CWArecurring, aes(x="", y=Proportional, fill=Region))+
   geom_text(aes(y = ypos, label = (paste(Percent,"% of regulated facilities\nin", Region2))),
             family="Georgia", size=4, vjust=2) +
   ggtitle("Number of Clean Water Act Facilities that spent\nat least 25% of the last 3 years in Violation")+
-  theme_meg()+
+  theme_megpie()+
   theme(axis.line.y=element_blank(), axis.line.x = element_blank(),
         axis.title.y=element_blank(), axis.text.y=element_blank(), axis.text.x=element_blank(),
         axis.title.x=element_blank(), legend.title=element_blank())
@@ -263,13 +272,13 @@ RCRApie<- ggplot(RCRArecurring, aes(x="", y=Proportional, fill=Region))+
   geom_text(aes(y = ypos, label = (paste(Percent,"% of regulated facilities\nin", Region2))),
             family="Georgia", size=4, vjust=2) +
   ggtitle("Number of Resource Conservation and Recovery Act\nFacilities that spent at least 25% of the last 3 years in Violation")+
-  theme_meg()+
+  theme_megpie()+
   theme(plot.title=element_text(face = "bold", size = 12, hjust =.5),
         axis.line.y=element_blank(), axis.line.x = element_blank(),
         axis.title.y=element_blank(), axis.text.y=element_blank(), axis.text.x=element_blank(),
         axis.title.x=element_blank(), legend.title=element_blank())
 
-CAApie | CWApie | RCRApie
+CAApie | CWApie | RCRApie   
 
 
 

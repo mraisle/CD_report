@@ -155,7 +155,56 @@ inspectiongraph <- ggplot(inspections, mapping=aes(x=factor(Date),
   theme(axis.text.x=element_text(angle= 80,hjust=1, size=8))
 inspectiongraph
 
-##leaving this here - I need to do #change in count and $$ for enforcement and then do a two y-axis graph
-##Then I just need to figure out how to put all of this onto that page
+
+#enforcement
+##So, we're going to do the first 3 years of Obama and Trump so average
+#[9:11,2] Obama
+# [17:19,2] Trump
+enforcement <- `enforcements_All_pg3_MA-4`
+enforcement$Amount <- round(enforcement$Amount,0)
+enforcementchange <- data.frame("Obama Average Count" =mean(enforcement[9:11,2]),
+                               "Trump Average Count" =mean(enforcement[17:19,2]),
+                               "Obama Average Fine" =mean(enforcement[9:11,3]),
+                               "Trump Average Fine" =mean(enforcement[17:19,3]))
+enforcementchange$PercentDifferenceCount <- as.numeric(100*(enforcementchange[1,2]-enforcementchange[1,1])/
+                                                   enforcementchange[1,1])
+enforcementchange$PercentDifferenceFine <- as.numeric(100*(enforcementchange[1,4]-enforcementchange[1,3])/
+                                                         enforcementchange[1,3])
+enforcementchange[,1:6] <-round(enforcementchange[,1:6],2)
+
+#plot change in enforcement
+enforcement$President <- as.character("Bush")
+enforcement[9:16,4] <- as.character("Obama")
+enforcement[17:20,4] <- as.character("Trump")
+
+write.csv(enforcement, here("enforcement.csv"))
+
+enforcementgraph <- enforcement %>% ggplot()+
+  geom_point(aes(x=factor(Date),y=Count, color=President, group=1))+
+  scale_color_viridis(discrete=TRUE)+
+  geom_line(aes(x=factor(Date),y=Count, color=President, group=1))+
+  labs(y="Formal Enforcement Actions", x="Year")+
+  ggtitle("Formal Enforcement Actions Across Programs in MA 4")+
+  scale_y_continuous(expand=c(0,0), limits=c(0,40))+
+  theme_meg()+
+  theme(axis.text.x=element_text(angle= 80,hjust=1, size=8))
+enforcementgraph
+
+#add $$
+enforcementgraph <- enforcementgraph +
+  geom_point(aes(x= factor(Date), y = Amount * 40/3000000, color=President, group=1))
+enforcementgraph <- enforcementgraph +
+  geom_line(aes(x= factor(Date), y = Amount * 40/3000000, color=President,group=1))
+enforcementgraph
+
+enforcegraph <- enforcementgraph + scale_y_continuous(
+  name = "Formal Enforcement Actions",
+  sec.axis = sec_axis(~ . *3000000/40,name = "Formal Enforcement Fines ($)"),
+  limits = c(0, 40))
+enforcegraph
+
+
+
+
 
 
