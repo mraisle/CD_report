@@ -49,67 +49,47 @@ pie
 
 ##let's attempt these pie charts
 
+#RCRA
+
 ##first let's fix up the data
 #ok so We'll put the % in the title for the state, and try to figure out the same for MA 4
-CAArecurring <- `recurring-violations_All_pg3_MA-4`[-c(2,3,5,6),]
-CAArecurring <- CAArecurring %>%
+RCRArecurring <- `recurring-violations_All_pg3_MA-4`[-c(1,2,4,5),]
+RCRArecurring <- RCRArecurring %>%
   select(CD,Facilities, Percent)
-names(CAArecurring)[1] <- "Region"
-CAArecurring[1,1] <- as.character("Rest of State")
-CAArecurring[2,1] <- as.character("MA 4")
-CAArecurring$Region2 <- as.character("all of MA")
-CAArecurring[2,4] <- as.character("MA 4")
-CAArecurring$RecurringViolators <- (as.numeric(CAArecurring[1,2]-CAArecurring[2,2]))
-CAArecurring[2,5] <- as.numeric(CAArecurring[2,2])
-CAArecurring$Proportional <- (as.numeric((100/(CAArecurring[1,2]))*CAArecurring[1,5]))
-CAArecurring[2,6] <- as.numeric(100-CAArecurring[1,6])
-CAArecurring[3] <-round(CAArecurring[3],2)
+names(RCRArecurring)[1] <- "Region"
+RCRArecurring[1,1] <- as.character("Rest of State")
+RCRArecurring[2,1] <- as.character("MA 4")
+RCRArecurring$Region2 <- as.character("all of MA")
+RCRArecurring[2,4] <- as.character("MA 4")
+RCRArecurring$RecurringViolators <- (as.numeric(RCRArecurring[1,2]-RCRArecurring[2,2]))
+RCRArecurring[2,5] <- as.numeric(RCRArecurring[2,2])
+RCRArecurring$Proportional <- (as.numeric((100/(RCRArecurring[1,2]))*RCRArecurring[1,5]))
+RCRArecurring[2,6] <- as.numeric(100-RCRArecurring[1,6])
+RCRArecurring[3] <-round(RCRArecurring[3],2)
 
 
-##then let's try to make a pie chart
+##RCRA pie chart
 
 # Compute the position of labels
-CAArecurring <- CAArecurring %>%
+RCRArecurring <- RCRArecurring %>%
   arrange(desc(Region)) %>%
   mutate(prop = Proportional) %>%
   mutate(ypos = cumsum(prop)- 0.5*prop )
 
-CAApie<- ggplot(CAArecurring, aes(x="", y=Proportional, fill=Region))+
+RCRApie<- ggplot(RCRArecurring, aes(x="", y=Proportional, fill=Region))+
   geom_bar(width = 1, stat = "identity")+
   coord_polar("y", start=0) +
   geom_text(aes(y = ypos, label = RecurringViolators), family="Georgia", size=8) +
   geom_text(aes(y = ypos, label = (paste(Percent,"% of regulated facilities\nin", Region2))),
             family="Georgia", size=4, vjust=2) +
-  ggtitle("Number of Clean Air Act Facilities that spent\nat least 25% of the last 3 years in Violation")+
+  ggtitle("Number of Resource Conservation and Recovery Act\nFacilities that spent at least 25% of the last 3 years in Violation")+
   theme_meg()+
-  theme(axis.line.y=element_blank(), axis.line.x = element_blank(),
+  theme(plot.title=element_text(face = "bold", size = 12, hjust =.5),
+        axis.line.y=element_blank(), axis.line.x = element_blank(),
         axis.title.y=element_blank(), axis.text.y=element_blank(), axis.text.x=element_blank(),
         axis.title.x=element_blank(), legend.title=element_blank())
 
-CAApie
+RCRApie
 
 
 
-# Create Data
-data <- data.frame(
-  group=LETTERS[1:5],
-  value=c(13,7,9,21,2)
-)
-
-# Compute the position of labels
-data <- data %>%
-  arrange(desc(group)) %>%
-  mutate(prop = value / sum(data$value) *100) %>%
-  mutate(ypos = cumsum(prop)- 0.5*prop )
-
-# Basic piechart
-testpie <- ggplot(data, aes(x="", y=prop, fill=group)) +
-  geom_bar(stat="identity", width=1, color="white") +
-  coord_polar("y", start=0) +
-  theme_void() +
-  theme(legend.position="none") +
-
-  geom_text(aes(y = ypos, label = group), color = "white", size=6) +
-  scale_fill_brewer(palette="Set1")
-
-testpie
