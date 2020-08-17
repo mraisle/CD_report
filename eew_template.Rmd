@@ -18,6 +18,9 @@ library(dplyr)
 library(shiny)
 library(extrafont)
 library(viridis)
+library(grid)
+library(gridExtra)
+library(fishualize)
 loadfonts()
 
 
@@ -62,7 +65,7 @@ theme_megpie <- function () {
   theme_bw(base_family="Georgia") %+replace% 
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank(),
           axis.line = element_line(colour = "black"), axis.title.x=element_text(face = "bold", size = 4), 
-          axis.title.y=element_text(face = "bold", size = 2, angle=90), plot.title=element_text(face = "bold", size = 6, hjust =.5), 
+          axis.title.y=element_text(face = "bold", size = 2, angle=90), plot.title=element_text(face = "bold", size = 8, hjust =.5), 
           axis.text.x=element_text(face = "bold", size = 2), axis.text.y=element_text(face = "bold", size = 2))
 }
 
@@ -155,11 +158,12 @@ Pull info from govtrack
 `r activefacilities[3,1]` facilities</span></h2>
 <h2><span style="color:#DC143C">`r activefacilities[4,2] ` 
 `r activefacilities[4,1]` facilities</span></h2>
-<br><br><br><br>
 
-## Recurring Violators 
+## Number of Regulated Facilities that spent at least 25% of the last 3 years in Violation per Program:
+### Percentages indicate what proportion of all regulated facilites these recurring violators represent
 
-```{r echo=FALSE, fig.align="center", fig.height=6, fig.width=8}
+```{r echo=FALSE, out.width= "95%", out.extra='style="float:center; padding:0px"'}
+
 
 ##let's attempt these pie charts
 
@@ -191,12 +195,13 @@ CAArecurring <- CAArecurring %>%
   mutate(ypos = cumsum(prop)- 0.5*prop )
 
 CAApie<- ggplot(CAArecurring, aes(x="", y=Proportional, fill=Region))+
-  geom_bar(width = 1, stat = "identity")+
+  geom_bar(width = 1, stat = "identity", show.legend=FALSE)+
+  scale_fill_manual(values=c("yellow","#00bfff")) +
   coord_polar("y", start=0) +
-  geom_text(aes(y = ypos, label = RecurringViolators), family="Georgia", size=8) +
+  geom_text(aes(y = ypos, label = RecurringViolators), family="Georgia", size=5) +
   geom_text(aes(y = ypos, label = (paste(Percent,"% of regulated facilities\nin", Region2))),
-            family="Georgia", size=4, vjust=2) +
-  ggtitle("Number of Clean Air Act Facilities that spent\nat least 25% of the last 3 years in Violation")+
+            family="Georgia", size=2, vjust=2) +
+  ggtitle("Clean Air Act")+
   theme_megpie()+
   theme(axis.line.y=element_blank(), axis.line.x = element_blank(),
         axis.title.y=element_blank(), axis.text.y=element_blank(), axis.text.x=element_blank(),
@@ -229,12 +234,13 @@ CWArecurring <- CWArecurring %>%
   mutate(ypos = cumsum(prop)- 0.5*prop )
 
 CWApie<- ggplot(CWArecurring, aes(x="", y=Proportional, fill=Region))+
-  geom_bar(width = 1, stat = "identity")+
+  geom_bar(width = 1, stat = "identity", show.legend = FALSE)+
+  scale_fill_manual(values=c("yellow","#00bfff")) +
   coord_polar("y", start=0) +
-  geom_text(aes(y = ypos, label = RecurringViolators), family="Georgia", size=8) +
+  geom_text(aes(y = ypos, label = RecurringViolators), family="Georgia", size=5) +
   geom_text(aes(y = ypos, label = (paste(Percent,"% of regulated facilities\nin", Region2))),
-            family="Georgia", size=4, vjust=2) +
-  ggtitle("Number of Clean Water Act Facilities that spent\nat least 25% of the last 3 years in Violation")+
+            family="Georgia", size=2, vjust=2) +
+  ggtitle("Clean Water Act")+
   theme_megpie()+
   theme(axis.line.y=element_blank(), axis.line.x = element_blank(),
         axis.title.y=element_blank(), axis.text.y=element_blank(), axis.text.x=element_blank(),
@@ -268,11 +274,12 @@ RCRArecurring <- RCRArecurring %>%
 
 RCRApie<- ggplot(RCRArecurring, aes(x="", y=Proportional, fill=Region))+
   geom_bar(width = 1, stat = "identity")+
+  scale_fill_manual(values=c("yellow","#00bfff")) +
   coord_polar("y", start=0) +
-  geom_text(aes(y = ypos, label = RecurringViolators), family="Georgia", size=8) +
+  geom_text(aes(y = ypos, label = RecurringViolators), family="Georgia", size=5) +
   geom_text(aes(y = ypos, label = (paste(Percent,"% of regulated facilities\nin", Region2))),
-            family="Georgia", size=4, vjust=2) +
-  ggtitle("Number of Resource Conservation and Recovery Act\nFacilities that spent at least 25% of the last 3 years in Violation")+
+            family="Georgia", size=2, vjust=2) +
+  ggtitle("Resource Conservation\nand Recovery Act")+
   theme_megpie()+
   theme(axis.line.y=element_blank(), axis.line.x = element_blank(),
         axis.title.y=element_blank(), axis.text.y=element_blank(), axis.text.x=element_blank(),
@@ -280,9 +287,9 @@ RCRApie<- ggplot(RCRArecurring, aes(x="", y=Proportional, fill=Region))+
 
 CAApie | CWApie | RCRApie  
 
+```
 
-##% Change Figures 
-
+```{r echo=FALSE }
 ##getting %difference effluent violations
 
 ##So, we're going to do the first 3 years of Obama and Trump so average
@@ -304,19 +311,16 @@ effluentviolations[17:20,3] <- as.character("Trump")
 effluentgraph <- ggplot(effluentviolations, mapping=aes(x=factor(Year),
   y=Violations, color=President, group=1))+
   scale_color_viridis(discrete= TRUE)+
-  geom_point(size=3)+
-  geom_line()+
-  labs(y="CWA Effluent Violations", x="Year")+
+  geom_point(size=3, show.legend=FALSE)+
+  geom_line(show.legend=FALSE)+
+  labs(y="Violations", x="Year")+
   ggtitle("CWA Effluent Violations in MA 4")+
   scale_y_continuous(expand=c(0,0), limits=c(0,450))+
+  scale_x_discrete(breaks=c(2004,2008,2012,2016,2020))+
   theme_meg()+
-  theme(axis.text.x=element_text(angle= 80,hjust=1, size=8))
-effluentgraph
-
-
+  theme(axis.text.x=element_text(size=8), axis.title.x = element_blank())
 
 ##Inspections % change and graph
-
 
 ##So, we're going to do the first 3 years of Obama and Trump so average
 #[9:11,2] Obama
@@ -337,15 +341,14 @@ inspections[17:20,3] <- as.character("Trump")
 inspectiongraph <- ggplot(inspections, mapping=aes(x=factor(Date),
                                                         y=Count, color=President, group=1))+
   scale_color_viridis(discrete= TRUE)+
-  geom_point(size=3)+
-  geom_line()+
-  labs(y="Inspections Across Programs", x="Year")+
+  geom_point(size=3, show.legend=FALSE)+
+  geom_line(show.legend=FALSE)+
+  labs(y="Inspections", x="Year")+
   ggtitle("Facility Inspections in MA 4")+
   scale_y_continuous(expand=c(0,0), limits=c(0,125))+
+  scale_x_discrete(breaks=c(2004,2008,2012,2016,2020))+
   theme_meg()+
-  theme(axis.text.x=element_text(angle= 80,hjust=1, size=8))
-inspectiongraph
-
+  theme(axis.title.x = element_blank(), axis.text.x=element_text(size=8))
 
 #enforcement
 ##So, we're going to do the first 3 years of Obama and Trump so average
@@ -368,37 +371,35 @@ enforcement$President <- as.character("Bush")
 enforcement[9:16,4] <- as.character("Obama")
 enforcement[17:20,4] <- as.character("Trump")
 
-write.csv(enforcement, here("enforcement.csv"))
-
-enforcementgraph <- enforcement %>% ggplot()+
-  geom_point(aes(x=factor(Date),y=Count, color=President, group=1))+
+enforcementactiongraph <- enforcement %>% ggplot()+
+  geom_point(aes(x=factor(Date),y=Count, color=President, group=1), show.legend=FALSE)+
   scale_color_viridis(discrete=TRUE)+
-  geom_line(aes(x=factor(Date),y=Count, color=President, group=1))+
-  labs(y="Formal Enforcement Actions", x="Year")+
-  ggtitle("Formal Enforcement Actions Across Programs in MA 4")+
+  geom_line(aes(x=factor(Date),y=Count, color=President, group=1), show.legend = FALSE)+
+  labs(y="# Actions", x="Year")+
+  ggtitle("Formal Enforcement Actions in MA 4")+
   scale_y_continuous(expand=c(0,0), limits=c(0,40))+
+  scale_x_discrete(breaks=c(2004,2008,2012,2016,2020))+
   theme_meg()+
-  theme(axis.text.x=element_text(angle= 80,hjust=1, size=8))
+  theme(axis.text.x=element_text(size=8),axis.title.x = element_blank())
+
+enforcementfinegraph <- enforcement %>% ggplot()+
+  geom_point(aes(x=factor(Date),y=Amount, color=President, group=1))+
+  scale_color_viridis(discrete=TRUE)+
+  geom_line(aes(x=factor(Date),y=Amount, color=President, group=1))+
+  labs(y="Fines ($)", x="Year")+
+  ggtitle("Enforcement Fines in MA 4")+
+  scale_y_continuous(expand=c(0,0), limits=c(0,3000000))+
+  scale_x_discrete(breaks=c(2004,2008,2012,2016,2020))+
+  guides(shape = guide_legend(override.aes = list(size = 1.5)))+
+  guides(color = guide_legend(override.aes = list(size = 1.5)))+
+  theme_meg()+
+  theme(axis.text.x=element_text(size=8),legend.position=c(.9,.8),  legend.title = element_text(size = 6), 
+               legend.text = element_text(size = 6))
 
 
-#add $$
-enforcementgraph <- enforcementgraph +
-  geom_point(aes(x= factor(Date), y = Amount * 40/3000000, color=President, group=1))
-enforcementgraph <- enforcementgraph +
-  geom_line(aes(x= factor(Date), y = Amount * 40/3000000, color=President,group=1))
-
-
-enforcegraph <- enforcementgraph + scale_y_continuous(
-  name = "Formal Enforcement Actions",
-  sec.axis = sec_axis(~ . *3000000/40,name = "Formal Enforcement Fines ($)"),
-  limits = c(0, 40))
-enforcegraph
-
-
-
+effluentgraph/inspectiongraph/enforcementactiongraph/enforcementfinegraph
 
 ```
-
 \pagebreak
 
 <hr style="height:3px;border-width:0;color: #C1E0D7;background-color: #C1E0D7; margin-top: 4em">

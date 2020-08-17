@@ -114,13 +114,14 @@ effluentviolations[17:20,3] <- as.character("Trump")
 effluentgraph <- ggplot(effluentviolations, mapping=aes(x=factor(Year),
   y=Violations, color=President, group=1))+
   scale_color_viridis(discrete= TRUE)+
-  geom_point(size=3)+
-  geom_line()+
+  geom_point(size=3, show.legend=FALSE)+
+  geom_line(show.legend=FALSE)+
   labs(y="CWA Effluent Violations", x="Year")+
   ggtitle("CWA Effluent Violations in MA 4")+
   scale_y_continuous(expand=c(0,0), limits=c(0,450))+
+  scale_x_discrete(breaks=c(2004,2008,2012,2016,2020))+
   theme_meg()+
-  theme(axis.text.x=element_text(angle= 80,hjust=1, size=8))
+  theme(axis.text.x=element_text(size=8), axis.title.x = element_blank())
 effluentgraph
 
 
@@ -146,13 +147,14 @@ inspections[17:20,3] <- as.character("Trump")
 inspectiongraph <- ggplot(inspections, mapping=aes(x=factor(Date),
                                                         y=Count, color=President, group=1))+
   scale_color_viridis(discrete= TRUE)+
-  geom_point(size=3)+
-  geom_line()+
-  labs(y="Inspections Across Programs", x="Year")+
+  geom_point(size=3, show.legend=FALSE)+
+  geom_line(show.legend=FALSE)+
+  labs(y="Inspections", x="Year")+
   ggtitle("Facility Inspections in MA 4")+
   scale_y_continuous(expand=c(0,0), limits=c(0,125))+
+  scale_x_discrete(breaks=c(2004,2008,2012,2016,2020))+
   theme_meg()+
-  theme(axis.text.x=element_text(angle= 80,hjust=1, size=8))
+  theme(axis.title.x = element_blank(), axis.text.x=element_text(size=8))
 inspectiongraph
 
 
@@ -177,20 +179,34 @@ enforcement$President <- as.character("Bush")
 enforcement[9:16,4] <- as.character("Obama")
 enforcement[17:20,4] <- as.character("Trump")
 
-write.csv(enforcement, here("enforcement.csv"))
-
-enforcementgraph <- enforcement %>% ggplot()+
-  geom_point(aes(x=factor(Date),y=Count, color=President, group=1))+
+enforcementactiongraph <- enforcement %>% ggplot()+
+  geom_point(aes(x=factor(Date),y=Count, color=President, group=1), show.legend=FALSE)+
   scale_color_viridis(discrete=TRUE)+
-  geom_line(aes(x=factor(Date),y=Count, color=President, group=1))+
+  geom_line(aes(x=factor(Date),y=Count, color=President, group=1), show.legend = FALSE)+
   labs(y="Formal Enforcement Actions", x="Year")+
-  ggtitle("Formal Enforcement Actions Across Programs in MA 4")+
+  ggtitle("Formal Enforcement Actions in MA 4")+
   scale_y_continuous(expand=c(0,0), limits=c(0,40))+
+  scale_x_discrete(breaks=c(2004,2008,2012,2016,2020))+
   theme_meg()+
-  theme(axis.text.x=element_text(angle= 80,hjust=1, size=8))
-enforcementgraph
+  theme(axis.text.x=element_text(size=8),axis.title.x = element_blank())
+enforcementactiongraph
 
-#add $$
+enforcementfinegraph <- enforcement %>% ggplot()+
+  geom_point(aes(x=factor(Date),y=Amount, color=President, group=1))+
+  scale_color_viridis(discrete=TRUE)+
+  geom_line(aes(x=factor(Date),y=Amount, color=President, group=1))+
+  labs(y="Enforcement Fines", x="Year")+
+  ggtitle("Enforcement Fines in MA 4")+
+  scale_y_continuous(expand=c(0,0), limits=c(0,3000000))+
+  scale_x_discrete(breaks=c(2004,2008,2012,2016,2020))+
+  theme_meg()+
+  theme(axis.text.x=element_text(size=8), legend.position = c(.9,.9), axis.text.y=element_text(angle=90))
+enforcementfinegraph
+
+grid.arrange(effluentgraph,inspectiongraph,enforcementactiongraph, enforcementfinegraph,
+             nrow=4) #arranges plots within grid
+
+#$$ graph
 enforcementgraph <- enforcementgraph +
   geom_point(aes(x= factor(Date), y = Amount * 40/3000000, color=President, group=1))
 enforcementgraph <- enforcementgraph +
@@ -205,6 +221,8 @@ enforcegraph
 
 
 
+grid.arrange(effluentgraph,inspectiongraph,enforcegraph, nrow=4) #arranges plots within grid
 
-
+install.packages("fishualize")
+library(fishualize)
 
