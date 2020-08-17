@@ -21,6 +21,7 @@ library(viridis)
 library(grid)
 library(gridExtra)
 library(fishualize)
+library(ggrepel)
 loadfonts()
 
 
@@ -95,7 +96,7 @@ eCAA$year <- as.numeric(eCAA$year)
   <div class="top-left">District Info</div>
 </div> 
 
-### 6 August 2020  
+### 17 August 2020  
 
 #### This report was produced by the Environmental Enforcement Watch, a project of EDGI. Data utlized to produce this report comes from the EPA's Enforcement and Compliance History Online [ECHO](https://echo.epa.gov/). 
 
@@ -160,7 +161,6 @@ Pull info from govtrack
 `r activefacilities[4,1]` facilities</span></h2>
 
 ## Number of Regulated Facilities that spent at least 25% of the last 3 years in Violation per Program:
-### Percentages indicate what proportion of all regulated facilites these recurring violators represent
 
 ```{r echo=FALSE, out.width= "95%", out.extra='style="float:center; padding:0px"'}
 
@@ -194,18 +194,36 @@ CAArecurring <- CAArecurring %>%
   mutate(prop = Proportional) %>%
   mutate(ypos = cumsum(prop)- 0.5*prop )
 
-CAApie<- ggplot(CAArecurring, aes(x="", y=Proportional, fill=Region))+
-  geom_bar(width = 1, stat = "identity", show.legend=FALSE)+
+CAApie <- ggplot(CAArecurring, aes(x = "", 
+                                   y = Proportional, 
+                                   fill = Region)) +
+  geom_bar(stat = "identity", 
+           show.legend = FALSE, 
+           width = 1,
+           color = "white") +
+  geom_text(x = 1.2, aes(y = ypos, 
+                label = RecurringViolators, family="Georgia"),
+            color = "black",
+            size = 6) +
+  geom_text_repel(aes(x = 1.5, 
+                      y = ypos, 
+                      label = paste("This is",Percent,"% of facilities\nin", Region2)),
+                   segment.color = "gray80",
+                   color = "gray50",
+                   size = 3,
+                   nudge_x = .4, 
+                   segment.size = 0.6, 
+                   show.legend = FALSE, family="Georgia") +
+  ggtitle("Clean Water Act") +
   scale_fill_manual(values=c("yellow","#00bfff")) +
-  coord_polar("y", start=0) +
-  geom_text(aes(y = ypos, label = RecurringViolators), family="Georgia", size=5) +
-  geom_text(aes(y = ypos, label = (paste(Percent,"% of regulated facilities\nin", Region2))),
-            family="Georgia", size=2, vjust=2) +
-  ggtitle("Clean Air Act")+
-  theme_megpie()+
-  theme(axis.line.y=element_blank(), axis.line.x = element_blank(),
-        axis.title.y=element_blank(), axis.text.y=element_blank(), axis.text.x=element_blank(),
-        axis.title.x=element_blank(), legend.title=element_blank())
+  scale_color_manual(values=c("yellow","#00bfff")) +
+  coord_polar("y", start = 0) +
+  theme_minimal() +
+  theme(axis.line = element_blank(),
+        axis.text = element_blank(),
+        panel.grid = element_blank(),
+        axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, margin = margin(0,0,0,0), family="Georgia"))
 #CWA
 
 ##first let's fix up the data
@@ -233,18 +251,39 @@ CWArecurring <- CWArecurring %>%
   mutate(prop = Proportional) %>%
   mutate(ypos = cumsum(prop)- 0.5*prop )
 
-CWApie<- ggplot(CWArecurring, aes(x="", y=Proportional, fill=Region))+
-  geom_bar(width = 1, stat = "identity", show.legend = FALSE)+
+
+CWApie <- ggplot(CWArecurring, aes(x = "", 
+                                   y = Proportional, 
+                                   fill = Region)) +
+  geom_bar(stat = "identity", 
+           show.legend = FALSE, 
+           width = 1,
+           color = "white") +
+  geom_text(x = 1.2, aes(y = ypos, 
+                label = RecurringViolators, family="Georgia"),
+            color = "black",
+            size = 6) +
+  geom_text_repel(aes(x = 1.5, 
+                      y = ypos, 
+                      label = paste("This is",Percent,"% of facilities\nin", Region2)),
+                   segment.color = "gray80",
+                   color = "gray50",
+                   size = 3,
+                   nudge_x = .4, 
+                   segment.size = 0.6, 
+                   show.legend = FALSE, family="Georgia") +
+  ggtitle("Clean Water Act") +
   scale_fill_manual(values=c("yellow","#00bfff")) +
-  coord_polar("y", start=0) +
-  geom_text(aes(y = ypos, label = RecurringViolators), family="Georgia", size=5) +
-  geom_text(aes(y = ypos, label = (paste(Percent,"% of regulated facilities\nin", Region2))),
-            family="Georgia", size=2, vjust=2) +
-  ggtitle("Clean Water Act")+
-  theme_megpie()+
-  theme(axis.line.y=element_blank(), axis.line.x = element_blank(),
-        axis.title.y=element_blank(), axis.text.y=element_blank(), axis.text.x=element_blank(),
-        axis.title.x=element_blank(), legend.title=element_blank())
+  scale_color_manual(values=c("yellow","#00bfff")) +
+  coord_polar("y", start = 0) +
+  theme_minimal() +
+  theme(axis.line = element_blank(),
+        axis.text = element_blank(),
+        panel.grid = element_blank(),
+        axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, margin = margin(0,0,0,0), family="Georgia"))
+  
+
 #RCRA
 
 ##first let's fix up the data
@@ -272,18 +311,36 @@ RCRArecurring <- RCRArecurring %>%
   mutate(prop = Proportional) %>%
   mutate(ypos = cumsum(prop)- 0.5*prop )
 
-RCRApie<- ggplot(RCRArecurring, aes(x="", y=Proportional, fill=Region))+
-  geom_bar(width = 1, stat = "identity")+
+RCRApie <- ggplot(RCRArecurring, aes(x = "", 
+                                   y = Proportional, 
+                                   fill = Region)) +
+  geom_bar(stat = "identity", 
+           show.legend = FALSE, 
+           width = 1,
+           color = "white") +
+  geom_text(x = 1.2, aes(y = ypos, 
+                label = RecurringViolators, family="Georgia"),
+            color = "black",
+            size = 6) +
+  geom_text_repel(aes(x = 1.5, 
+                      y = ypos, 
+                      label = paste("This is",Percent,"% of facilities\nin", Region2)),
+                   segment.color = "gray80",
+                   color = "gray50",
+                   size = 3,
+                   nudge_x = .4, 
+                   segment.size = 0.6, 
+                   show.legend = FALSE, family="Georgia") +
+  ggtitle("Resource Conservation\nand Recovery Act") +
   scale_fill_manual(values=c("yellow","#00bfff")) +
-  coord_polar("y", start=0) +
-  geom_text(aes(y = ypos, label = RecurringViolators), family="Georgia", size=5) +
-  geom_text(aes(y = ypos, label = (paste(Percent,"% of regulated facilities\nin", Region2))),
-            family="Georgia", size=2, vjust=2) +
-  ggtitle("Resource Conservation\nand Recovery Act")+
-  theme_megpie()+
-  theme(axis.line.y=element_blank(), axis.line.x = element_blank(),
-        axis.title.y=element_blank(), axis.text.y=element_blank(), axis.text.x=element_blank(),
-        axis.title.x=element_blank(), legend.title=element_blank())
+  scale_color_manual(values=c("yellow","#00bfff")) +
+  coord_polar("y", start = 0) +
+  theme_minimal() +
+  theme(axis.line = element_blank(),
+        axis.text = element_blank(),
+        panel.grid = element_blank(),
+        axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, margin = margin(0,0,0,0), family="Georgia"))
 
 CAApie | CWApie | RCRApie  
 
