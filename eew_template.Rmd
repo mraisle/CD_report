@@ -464,6 +464,8 @@ effluentgraph/inspectiongraph/enforcementactiongraph/enforcementfinegraph
 ##### DISTRICT INFORMATION
 
 # Your District in Comparison
+
+### The following two figures display the number of inspections and violations at the national, state, and district level per 1000 regulated facilites in 2019. Soon this will also include enforcement actions and fines 
 ```{r, fig.height = 6, fig.width = 8, fig.align = "left"}
 
 #comparing inspections
